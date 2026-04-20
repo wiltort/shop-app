@@ -1,0 +1,25 @@
+[project]
+name = "shop-app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Wiltort",email = "wiltort21@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "django (>=6.0.4,<7.0.0)",
+    "stripe (>=15.0.1,<16.0.0)",
+    "djangorestframework (>=3.17.1,<4.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "mirrors"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+priority = "primary"
+
