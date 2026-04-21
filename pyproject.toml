@@ -7,12 +7,11 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.12"
-package-mode = false
 dependencies = [
     "django (>=6.0.4,<7.0.0)",
     "stripe (>=15.0.1,<16.0.0)",
     "djangorestframework (>=3.17.1,<4.0.0)",
-    "psycopg (>=3.3.3,<4.0.0)"
+    "psycopg[binary] (>=3.3.3,<4.0.0)",
 ]
 
 
@@ -25,6 +24,8 @@ name = "mirrors"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 priority = "primary"
 
+[tool.poetry]
+package-mode = false
 
 
 [dependency-groups]

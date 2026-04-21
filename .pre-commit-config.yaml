@@ -25,12 +25,8 @@ repos:
       - id: mixed-line-ending
         args: ['--fix=lf']
 
-# Глобальные настройки
-default_language_version:
-  python: python3.12
-
 # Автоматически применять исправления
-default_stages: [commit, push]
+default_stages: [pre-commit, pre-push]
 
 # Исключить миграции и сгенерированные файлы
 exclude: |
