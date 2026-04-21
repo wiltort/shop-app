@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,7 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-ix2b^p*bv6-7+#5!!_&hea0w$onkq+ht-a7^0dp(f*uj$@+)fu')
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-ix2b^p*bv6-7+#5!!_&hea0w$onkq+ht-a7^0dp(f*uj$@+)fu',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
@@ -123,3 +127,6 @@ CURRENCIES = (
     ('RUB', 'RUB'),
     ('USD', 'USD'),
 )
+
+# Дефолтная валюта
+DEFAULT_CURRENCY = CURRENCIES[0][0]

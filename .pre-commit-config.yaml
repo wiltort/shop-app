@@ -1,0 +1,44 @@
+# Конфигурация pre-commit для проекта
+repos:
+  # Ruff для линтинга и форматирования
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.11
+    hooks:
+      # Запуск линтера
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        types: [python]
+      # Запуск форматирования
+      - id: ruff-format
+        types: [python]
+
+  # Проверка trailing whitespace
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
+# Глобальные настройки
+default_language_version:
+  python: python3.12
+
+# Автоматически применять исправления
+default_stages: [commit, push]
+
+# Исключить миграции и сгенерированные файлы
+exclude: |
+  (?x)^(
+    .*migrations/.*|
+    .*\.pyc|
+    .*\.sqlite3|
+    .*\.log|
+    .*\.egg-info/.*|
+    __pycache__/.*
+  )$

@@ -1,0 +1,109 @@
+# Конфигурация Ruff для Django проекта
+# Версия: 0.15.11
+
+# Игнорируемые файлы и директории
+exclude = [
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "*.pyc",
+    "*.pyo",
+    "*.pyd",
+    ".pytest_cache",
+    ".vscode",
+    "node_modules",
+    "build",
+    "dist",
+    "*.egg-info",
+    "migrations",
+    "static",
+    "media",
+    "*.sqlite3",
+    "*.log",
+]
+
+# Целевая версия Python
+target-version = "py312"
+
+# Максимальная длина строки
+line-length = 88
+
+# Настройки линтера
+[lint]
+# Выбираем все правила, затем отключаем некоторые
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "PL",  # pylint
+    "RUF", # ruff-specific
+]
+
+# Игнорируемые правила
+ignore = [
+    "B008",  # do not perform function calls in argument defaults
+    "B905",  # zip without an explicit `strict=` parameter
+    "PLR2004", # magic value used in comparison
+    "PLW2901", # outer loop variable may be overwritten
+    "C901",  # too complex
+]
+
+# Настройки форматирования
+[format]
+# Использовать одинарные кавычки
+quote-style = "single"
+# Не пропускать запятую при переносе (инвертированная логика)
+skip-magic-trailing-comma = false
+
+# Настройки сортировки импортов
+[lint.isort]
+# Группировка импортов
+known-first-party = ["shop_app", "orders"]
+# Использовать черту между секциями
+lines-between-types = 1
+# Сортировка по силе
+order-by-type = true
+# Разделять стандартные библиотеки и сторонние пакеты
+split-on-trailing-comma = true
+
+# Настройки для Django
+[lint.per-file-ignores]
+# Игнорировать определенные правила для миграций
+"**/migrations/*.py" = [
+    "E501",
+    "F841",  # unused variable (часто используется в миграциях)
+    "PLR2004",
+]
+# Игнорировать длинные строки в тестах
+"**/tests/*.py" = [
+    "E501",
+    "S101",  # использование assert
+]
+# Игнорировать определенные правила для настроек
+"**/settings.py" = [
+    "E501",
+    "B008",
+    "PLW1508",  # invalid type for environment variable default
+]
+# Игнорировать правило для импорта внутри try в manage.py
+"src/manage.py" = [
+    "PLC0415",  # import should be at the top-level of a file
+]
+
+# Настройки для pyupgrade
+[lint.pyupgrade]
+# Сохранять runtime typing (не преобразовывать в аннотации)
+keep-runtime-typing = true
+
+# Настройки для mccabe (сложность кода)
+[lint.mccabe]
+# Максимальная сложность
+max-complexity = 10

@@ -24,3 +24,10 @@ name = "mirrors"
 url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 priority = "primary"
 
+
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.15.11,<0.16.0)",
+    "pre-commit (>=3.6.0,<4.0.0)"
+]
