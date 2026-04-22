@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView, Response
 
-from orders.api.serializers import ItemSerializer
+from orders.api.v1.serializers import ItemSerializer
 from orders.models import Item
 from orders.services import stripe_service
 
