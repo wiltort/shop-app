@@ -12,7 +12,7 @@ COPY pyproject.toml poetry.lock ./
 RUN pip install poetry && \
     poetry self add poetry-plugin-dotenv && \
     poetry config virtualenvs.create false && \
-    poetry install --no-interaction --no-ansi --without dev
+    poetry install --no-interaction --no-ansi --without dev,stage
 
 # Копируем весь код проекта в контейнер
 COPY . .
