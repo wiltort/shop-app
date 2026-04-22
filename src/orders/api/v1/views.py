@@ -16,5 +16,5 @@ class ItemView(RetrieveAPIView):
 class ItemBuyView(APIView):
     def get(self, request, *args, **kwargs):
         item = get_object_or_404(Item, pk=kwargs['pk'])
-        session = stripe_service.create_checkout_session(item)
+        session = stripe_service.create_session(item)
         return Response({'session_id': session.id}, status=status.HTTP_200_OK)
