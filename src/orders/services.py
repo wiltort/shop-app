@@ -19,7 +19,11 @@ class StripeService:
         self.client = stripe.StripeClient(api_key)
 
     def create_session(
-        self, item: Item | None = None, order: Order | None = None
+        self,
+        success_url: str,
+        cancel_url: str,
+        item: Item | None = None,
+        order: Order | None = None,
     ) -> stripe.checkout.Session:
         """Создание сессии для оплаты"""
         logger.info('Creating session')
@@ -37,7 +41,7 @@ class StripeService:
                                 'description': item.description,
                                 # tax details
                             },
-                            'unit_amount': item.price,
+                            'unit_amount': int(item.price * 100),
                         },
                         'quantity': 1,
                     }
@@ -53,16 +57,18 @@ class StripeService:
                                     'description': itm.description,
                                     # tax details
                                 },
-                                'unit_amount': itm.price,
+                                'unit_amount': int(itm.price * 100),
                             },
                             'quantity': itm.quantity,
                         }
                     )
             session = self.client.v1.checkout.sessions.create(
-                line_items=line_items,
-                mode='payment',
-                success_url=settings.STRIPE_SUCCESS_URL,
-                cancel_url=settings.STRIPE_CANCEL_URL,
+                {
+                    'line_items': line_items,
+                    'mode': 'payment',
+                    'success_url': f'{settings.BASE_URL}/success_url',
+                    'cancel_url': f'{settings.BASE_URL}/cancel_url',
+                }
             )
             logger.info('Session created')
         except Exception as e:
