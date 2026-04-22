@@ -69,3 +69,6 @@ class StripeService:
             logger.error(e)
             raise e
         return session
+
+
+stripe_service = StripeService()
