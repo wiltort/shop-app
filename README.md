@@ -36,7 +36,7 @@ poetry run python manage.py runserver
 ```
 
 ## Описание эндпойнтов
-- GET	/api/v1/items/<pk>   Детали товара
-- POST	/api/v1/buy/<pk>	Создать сессию оплаты товара
-- GET	/api/v1/orders/<pk>	Детали заказа
-- POST	/api/v1/orders/<pk>/buy 	Создать сессию оплаты заказа
+- GET	/api/v1/items/{pk}/   Детали товара
+- POST	/api/v1/buy/{pk}/	Создать сессию оплаты товара
+- GET	/api/v1/orders/{pk}/	Детали заказа
+- POST	/api/v1/orders/{pk}/buy/ 	Создать сессию оплаты заказа
