@@ -39,6 +39,18 @@ class ItemBuyView(APIView):
         return Response({'session_id': session.id}, status=status.HTTP_200_OK)
 
 
-class OrderView(RetrieveAPIView):
+class OrderHTMLView(RetrieveAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    renderer_classes = (TemplateHTMLRenderer,)
+
+    def get(self, request, *args, **kwargs):
+        order = self.get_object()
+        serializer = self.get_serializer(order)
+        return Response(
+            {
+                'order': serializer.data,
+                'public_key': settings.STRIPE_PUBLIC_KEY,
+            },
+            template_name='order.html',
+        )
