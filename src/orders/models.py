@@ -20,6 +20,9 @@ class Item(models.Model):
         default=settings.DEFAULT_CURRENCY,
     )
 
+    def __str__(self):
+        return f'Item `{self.name}`, ID: {self.id}'
+
 
 class ItemInOrder(models.Model):
     """Модель для товара в заказе."""
@@ -50,6 +53,7 @@ class Order(models.Model):
         verbose_name='Итого',
         editable=False,
         blank=True,
+        null=True,
     )
     currency = models.CharField(
         max_length=3,
@@ -60,8 +64,16 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False, verbose_name='Оплачен')
 
     def save(self, *args, **kwargs):
-        self.total = sum([item.price for item in self.items.all()])
+        is_new = self.pk is None
         super().save(*args, **kwargs)
+        if not is_new or self.pk is not None:
+            self.total = sum(
+                [
+                    item_in_order.item.price * item_in_order.quantity
+                    for item_in_order in self.iteminorder_set.all()
+                ]
+            )
+            super().save(update_fields=['total'])
 
 
 class Discount(models.Model):
