@@ -14,6 +14,8 @@ cp .env.example .env # создание .env
     # STRIPE_SECRET_KEY=sk_***
 docker compose -f docker-compose.dev.yaml up -d
 ```
+    Сервис доступен на http://127.0.0.1:8000/
+    Админка - http://127.0.0.1:8000/admin/
 ### Способ 2. Локально
 ```bash
 git clone https://github.com/wiltort/shop-app.git
