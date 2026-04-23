@@ -66,8 +66,8 @@ class StripeService:
                 {
                     'line_items': line_items,
                     'mode': 'payment',
-                    'success_url': f'{settings.BASE_URL}/success_url',
-                    'cancel_url': f'{settings.BASE_URL}/cancel_url',
+                    'success_url': f'{settings.BASE_URL}/{success_url}',
+                    'cancel_url': f'{settings.BASE_URL}/{cancel_url}',
                 }
             )
             logger.info('Session created')
