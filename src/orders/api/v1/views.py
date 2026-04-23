@@ -6,8 +6,8 @@ from rest_framework.generics import RetrieveAPIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView, Response
 
-from orders.api.v1.serializers import ItemSerializer
-from orders.models import Item
+from orders.api.v1.serializers import ItemSerializer, OrderSerializer
+from orders.models import Item, Order
 from orders.services import stripe_service
 
 
@@ -37,3 +37,8 @@ class ItemBuyView(APIView):
             item=item, success_url=item_url, cancel_url=item_url
         )
         return Response({'session_id': session.id}, status=status.HTTP_200_OK)
+
+
+class OrderView(RetrieveAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

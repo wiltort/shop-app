@@ -44,7 +44,13 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
     items = models.ManyToManyField(Item, verbose_name='Товары', through=ItemInOrder)
-    total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Итого')
+    total = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Итого',
+        editable=False,
+        blank=True,
+    )
     currency = models.CharField(
         max_length=3,
         verbose_name='Валюта',
@@ -52,6 +58,10 @@ class Order(models.Model):
         default=settings.DEFAULT_CURRENCY,
     )
     is_paid = models.BooleanField(default=False, verbose_name='Оплачен')
+
+    def save(self, *args, **kwargs):
+        self.total = sum([item.price for item in self.items.all()])
+        super().save(*args, **kwargs)
 
 
 class Discount(models.Model):
