@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.views import APIView, Response
 
 from orders.api.v1.serializers import ItemSerializer
@@ -9,9 +11,21 @@ from orders.models import Item
 from orders.services import stripe_service
 
 
-class ItemView(RetrieveAPIView):
+class ItemHTMLView(RetrieveAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    renderer_classes = (TemplateHTMLRenderer,)
+
+    def get(self, request, *args, **kwargs):
+        item = self.get_object()
+        serializer = self.get_serializer(item)
+        return Response(
+            {
+                'item': serializer.data,
+                'public_key': settings.STRIPE_PUBLIC_KEY,
+            },
+            template_name='item_detail.html',
+        )
 
 
 class ItemBuyView(APIView):
