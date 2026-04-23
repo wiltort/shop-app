@@ -47,17 +47,17 @@ class StripeService:
                     }
                 )
             elif order:
-                for itm in order.items.all():
+                for itm in order.iteminorder_set.all():
                     line_items.append(
                         {
                             'price_data': {
-                                'currency': itm.currency,
+                                'currency': itm.item.currency,
                                 'product_data': {
-                                    'name': itm.name,
-                                    'description': itm.description,
+                                    'name': itm.item.name,
+                                    'description': itm.item.description,
                                     # tax details
                                 },
-                                'unit_amount': int(itm.price * 100),
+                                'unit_amount': int(itm.item.price * 100),
                             },
                             'quantity': itm.quantity,
                         }

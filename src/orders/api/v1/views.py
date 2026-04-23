@@ -31,8 +31,8 @@ class ItemHTMLView(RetrieveAPIView):
 class ItemBuyView(APIView):
     def get(self, request, *args, **kwargs):
         pk = kwargs['pk']
-        item = get_object_or_404(Item, pk=pk)
-        item_url = reverse('item', kwargs={'pk': pk})
+        item: Item = get_object_or_404(Item, pk=pk)
+        item_url: str = reverse('item', kwargs={'pk': pk})
         session = stripe_service.create_session(
             item=item, success_url=item_url, cancel_url=item_url
         )
@@ -45,7 +45,7 @@ class OrderHTMLView(RetrieveAPIView):
     renderer_classes = (TemplateHTMLRenderer,)
 
     def get(self, request, *args, **kwargs):
-        order = self.get_object()
+        order: Order = self.get_object()
         serializer = self.get_serializer(order)
         return Response(
             {
@@ -54,3 +54,18 @@ class OrderHTMLView(RetrieveAPIView):
             },
             template_name='order.html',
         )
+
+
+class OrderBuyView(APIView):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs['pk']
+        order = get_object_or_404(Order, pk=pk)
+        if order.is_paid:
+            return Response(
+                {'error': 'Order is already paid'}, status=status.HTTP_400_BAD_REQUEST
+            )
+        item_url = reverse('order', kwargs={'pk': pk})
+        session = stripe_service.create_session(
+            order=order, success_url=item_url, cancel_url=item_url
+        )
+        return Response({'session_id': session.id}, status=status.HTTP_200_OK)
