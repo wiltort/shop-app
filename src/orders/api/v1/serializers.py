@@ -4,6 +4,8 @@ from orders.models import Item, ItemInOrder, Order
 
 
 class ItemSerializer(ModelSerializer):
+    """Сериализатор для модели Item."""
+
     class Meta:
         model = Item
         fields = '__all__'
@@ -11,6 +13,8 @@ class ItemSerializer(ModelSerializer):
 
 
 class ItemInOrderSerializer(ModelSerializer):
+    """Сериализатор для модели ItemInOrder."""
+
     item = ItemSerializer()
 
     class Meta:
@@ -19,6 +23,8 @@ class ItemInOrderSerializer(ModelSerializer):
 
 
 class OrderSerializer(ModelSerializer):
+    """Сериализатор для модели Order."""
+
     iteminorder_set = ItemInOrderSerializer(many=True)
 
     class Meta:

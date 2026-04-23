@@ -12,11 +12,14 @@ from orders.services import stripe_service
 
 
 class ItemHTMLView(RetrieveAPIView):
+    """HTML-представление для отображения детали товара."""
+
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
     renderer_classes = (TemplateHTMLRenderer,)
 
     def get(self, request, *args, **kwargs):
+        """Обработка GET-запроса для отображения HTML-страницы товара."""
         item = self.get_object()
         serializer = self.get_serializer(item)
         return Response(
@@ -29,7 +32,10 @@ class ItemHTMLView(RetrieveAPIView):
 
 
 class ItemBuyView(APIView):
+    """Представление для инициации оплаты товара через Stripe."""
+
     def get(self, request, *args, **kwargs):
+        """Обработка GET-запроса для создания сессии оплаты товара."""
         pk = kwargs['pk']
         item: Item = get_object_or_404(Item, pk=pk)
         item_url: str = reverse('item', kwargs={'pk': pk})
@@ -40,11 +46,14 @@ class ItemBuyView(APIView):
 
 
 class OrderHTMLView(RetrieveAPIView):
+    """HTML-представление для отображения детали заказа."""
+
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     renderer_classes = (TemplateHTMLRenderer,)
 
     def get(self, request, *args, **kwargs):
+        """Обработка GET-запроса для отображения HTML-страницы заказа."""
         order: Order = self.get_object()
         serializer = self.get_serializer(order)
         return Response(
@@ -57,7 +66,10 @@ class OrderHTMLView(RetrieveAPIView):
 
 
 class OrderBuyView(APIView):
+    """Представление для инициации оплаты заказа через Stripe."""
+
     def get(self, request, *args, **kwargs):
+        """Обработка GET-запроса для создания сессии оплаты заказа."""
         pk = kwargs['pk']
         order = get_object_or_404(Order, pk=pk)
         if order.is_paid:

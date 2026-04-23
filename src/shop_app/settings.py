@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', False).lower == 'true'
 
 BASE_URL = os.environ.get('BASE_URL', 'http://127.0.0.1:8000')
 ALLOWED_HOSTS = [
